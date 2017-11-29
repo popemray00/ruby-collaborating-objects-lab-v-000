@@ -1,8 +1,16 @@
 class MP3Importer
+    attr_reader :path
 
-  def initialize
-    file.path("ruby-collaborating-objects-lab/db/mp3s")
-  end
+   def initialize(path)
+     @path = path
+   end
 
+   def files
+     @files ||= Dir.glob("#{path}/*.mp3").collect{|f| f.gsub("#{path}/", "")}
+   end
 
-end
+    def import
+      files.each{|f| Song.new_by_filename(f)}
+    end
+
+ end
